@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>넘겨. 오늘까지인 영화표 양도</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- 맨 위 띠: 오늘 자정까지 남은 시간 -->
+  <div class="topbar">
+    <span>양도 가능 시간</span>
+    <strong id="countdown">00:00:00</strong>
+  </div>
+
+  <!-- 로고와 내 이름 -->
+  <header class="header">
+    <div class="logo">넘겨<span class="logo-dot">.</span></div>
+    <div class="user" id="user-area" hidden>
+      <span id="user-name"></span>
+      <button type="button" class="link-button" id="logout-button">로그아웃</button>
+    </div>
+  </header>
+
+  <main class="main">
+    <!-- 로그인 화면 -->
+    <section class="screen screen-login" id="screen-login" hidden>
+      <h1 class="headline">오늘까지인 영화표,<br>버리지 말고 넘겨요</h1>
+      <div class="login-buttons">
+        <button type="button" class="login-button kakao" id="kakao-button">카카오로 시작하기</button>
+        <button type="button" class="login-button google" id="google-button">구글로 시작하기</button>
+      </div>
+      <p class="message" id="login-message"></p>
+    </section>
+
+    <!-- 고르기 화면 -->
+    <section class="screen screen-choose" id="screen-choose" hidden>
+      <h1 class="headline" id="choose-question"></h1>
+      <div class="choices">
+        <button type="button" class="choice" id="give-button">
+          <span class="choice-title">넘기기</span>
+          <span class="choice-sub">못 보게 된 영화표를 양도해요</span>
+        </button>
+        <button type="button" class="choice" id="take-button">
+          <span class="choice-title">넘겨받기</span>
+          <span class="choice-sub">오늘 볼 영화표를 찾아요</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- 양도글 올리기 화면 (넘기기) -->
+    <section class="screen" id="screen-give" hidden>
+      <div class="screen-head">
+        <button type="button" class="link-button back-button">← 처음으로</button>
+        <h1 class="screen-title">넘기기</h1>
+      </div>
+      <form class="box form" id="give-form" novalidate>
+        <label class="field">
+          <span class="field-label">양도글 링크</span>
+          <input type="url" id="give-link" placeholder="https://www.daangn.com/...">
+        </label>
+        <label class="field">
+          <span class="field-label">극장</span>
+          <select id="give-theater"></select>
+        </label>
+        <label class="field">
+          <span class="field-label">영화 제목</span>
+          <input type="text" id="give-title" placeholder="영화 제목">
+        </label>
+        <label class="field">
+          <span class="field-label">상영 시각 (오늘)</span>
+          <input type="time" id="give-time">
+        </label>
+        <label class="field">
+          <span class="field-label">가격 (원, 0원이면 무료)</span>
+          <input type="text" inputmode="numeric" id="give-price" placeholder="0">
+        </label>
+        <p class="hint">좌석, 연락은 링크 속 글에서 해요</p>
+        <p class="message" id="give-message"></p>
+        <button type="button" class="primary-button" id="submit-button">올리기</button>
+      </form>
+    </section>
+
+    <!-- 양도글 찾기 화면 (넘겨받기) -->
+    <section class="screen" id="screen-find" hidden>
+      <div class="screen-head">
+        <button type="button" class="link-button back-button">← 처음으로</button>
+        <h1 class="screen-title">넘겨받기</h1>
+      </div>
+
+      <div class="box filters">
+        <label class="field">
+          <span class="field-label">극장</span>
+          <select id="filter-theater"></select>
+        </label>
+        <label class="field">
+          <span class="field-label">영화</span>
+          <select id="filter-movie"></select>
+        </label>
+        <label class="field">
+          <span class="field-label">상영 시간</span>
+          <select id="filter-time">
+            <option value="">전체 시간</option>
+            <option value="morning">오전 (12시 전)</option>
+            <option value="afternoon">오후 (12시~18시)</option>
+            <option value="evening">저녁 (18시 이후)</option>
+          </select>
+        </label>
+        <button type="button" class="reset-button" id="reset-button">초기화</button>
+      </div>
+
+      <h2 class="theater-title" id="theater-title">전체 극장</h2>
+
+      <div class="find-layout">
+        <div class="box map" id="map">
+          <div class="map-scroll">
+            <div class="map-canvas" id="map-canvas">
+              <div class="island"></div>
+            </div>
+          </div>
+          <div class="zoom">
+            <button type="button" id="zoom-in" aria-label="확대">+</button>
+            <button type="button" id="zoom-out" aria-label="축소">−</button>
+          </div>
+        </div>
+
+        <div class="list-area">
+          <div class="list-head">
+            <span>상영 시간 빠른 순</span>
+            <button type="button" class="link-button" id="clear-theater-button">극장 필터 해제</button>
+          </div>
+          <p class="message" id="list-message"></p>
+          <div class="cards" id="cards"></div>
+          <p class="empty" id="empty-message" hidden>조건에 맞는 양도글이 없어요</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
